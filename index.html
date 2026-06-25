@@ -139,12 +139,15 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 <section>
   <div class="wrap">
     <h2>Calculadora del <em>modelo económico integral</em></h2>
-    <p class="lead">Modifica el número de motos, la productividad y los costos. El costo por atención es <b>integral</b> (personal + insumos + equipamiento + EPP + comunicaciones + supervisión + gastos administrativos). Datos oficiales precargados.</p>
+    <p class="lead">Modifica el número de motos, cuántas llevan enfermero(a) y cuántas técnico, la productividad y los costos. El costo por atención es <b>integral</b> (personal + insumos + equipamiento + EPP + comunicaciones + supervisión + gastos administrativos). Datos oficiales precargados.</p>
     <div class="calc">
       <div class="calc-grid">
         <div class="inputs">
           <label for="N">Motos cedidas por la MML (flota) <span class="val" id="vN">43</span></label>
           <input type="range" id="N" min="1" max="50" value="43" step="1">
+          <label for="NE">Motos con enfermero(a) <span class="val" id="vNE">14</span></label>
+          <input type="range" id="NE" min="0" max="43" value="14" step="1">
+          <div class="note" style="margin-top:.15rem">El resto son técnicos: <b id="vNT">29</b> motos con técnico.</div>
           <label for="At">Atenciones por día por unidad <span class="val" id="vAt">12</span></label>
           <input type="range" id="At" min="6" max="20" value="12" step="1">
           <label for="Dias">Días operativos por mes <span class="val" id="vDias">25</span></label>
@@ -162,16 +165,22 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
         </div>
         <div class="out" aria-live="polite">
           <table>
-            <thead><tr><th>Indicador</th><th>Enfermero(a)</th><th>Técnico</th></tr></thead>
+            <thead><tr><th>Por unidad (referencia)</th><th>Enfermero(a)</th><th>Técnico</th></tr></thead>
             <tbody>
-              <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td><td id="oAnio2">—</td></tr>
               <tr class="hl"><td>Costo integral por atención</td><td id="oCpa">—</td><td id="oCpaT">—</td></tr>
               <tr><td>Costo mensual por unidad</td><td id="oMen">—</td><td id="oMenT">—</td></tr>
-              <tr><td>Costo anual operación (flota)</td><td id="oAn">—</td><td id="oAnT">—</td></tr>
-              <tr><td>Equipamiento (inversión flota)</td><td id="oEq">—</td><td id="oEqT">—</td></tr>
               <tr class="hl"><td>Tarifa rentable (con margen)</td><td id="oTar">—</td><td id="oTarT">—</td></tr>
-              <tr><td>Ingreso anual (flota)</td><td id="oIng">—</td><td id="oIngT">—</td></tr>
-              <tr class="hl2"><td>Utilidad anual (flota)</td><td id="oUt">—</td><td id="oUtT">—</td></tr>
+            </tbody>
+          </table>
+          <table style="margin-top:1rem">
+            <thead><tr><th>Flota con tu mezcla</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td>Dotación (enfermero / técnico)</td><td id="oMix">—</td></tr>
+              <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td></tr>
+              <tr><td>Costo anual de operación (flota)</td><td id="oAn">—</td></tr>
+              <tr><td>Equipamiento (inversión flota)</td><td id="oEq">—</td></tr>
+              <tr><td>Ingreso anual a tarifa (flota)</td><td id="oIng">—</td></tr>
+              <tr class="hl2"><td>Utilidad anual (flota)</td><td id="oUt">—</td></tr>
             </tbody>
           </table>
           <div class="warn" id="warn"></div>
@@ -186,7 +195,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
   <div class="wrap">
     <h2>Detalle <em>desplegable</em></h2>
     <details>
-      <summary>Asignación de las 30 motos por corredor (demanda real 2025)</summary>
+      <summary>Asignación de las 43 motos por corredor (demanda real 2025)</summary>
       <div class="det-body">
         <table class="data">
           <thead><tr><th>Corredor</th><th>Atendidos 2025</th><th>% demanda</th><th>Motos</th></tr></thead>
@@ -244,46 +253,41 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 
 <script>
   var fmt=function(n){return 'S/ '+Math.round(n).toLocaleString('es-PE');};
-  var ids=['N','At','Dias','SE','ST','Ins','Eq','Mg'];
+  var ids=['N','NE','At','Dias','SE','ST','Ins','Eq','Mg'];
   function g(id){return parseFloat(document.getElementById(id).value);}
+  function txt(id,v){document.getElementById(id).textContent=v;}
   function calcUno(sueldo,atMes,ins,eq,ov,mg){
     var personal=sueldo/atMes;
     var equipAmort=(eq/36)/atMes;
     var epp=100/atMes, comm=60/atMes, superv=200/atMes;
     var sub=personal+ins+equipAmort+epp+comm+superv;
     var cpa=sub*(1+ov);
-    var men=cpa*atMes;
-    var tarifa=cpa/(1-mg);
-    return {cpa:cpa,men:men,tarifa:tarifa};
+    return {cpa:cpa, men:cpa*atMes, tarifa:cpa/(1-mg)};
   }
   function update(){
-    var N=g('N'),At=g('At'),Dias=g('Dias'),SE=g('SE'),ST=g('ST'),Ins=g('Ins'),Eq=g('Eq'),Mg=g('Mg')/100;
-    document.getElementById('vN').textContent=N;
-    document.getElementById('vAt').textContent=At;
-    document.getElementById('vDias').textContent=Dias;
-    document.getElementById('vSE').textContent=SE;
-    document.getElementById('vST').textContent=ST;
-    document.getElementById('vIns').textContent=Ins;
-    document.getElementById('vEq').textContent=Eq;
-    document.getElementById('vMg').textContent=Math.round(Mg*100);
-    var atMes=At*Dias, atAnioFlota=atMes*12*N, ov=0.12;
+    var N=g('N');
+    var neEl=document.getElementById('NE');
+    neEl.max=N; if(parseFloat(neEl.value)>N){neEl.value=N;}
+    var NE=g('NE'), NT=N-NE;
+    var At=g('At'),Dias=g('Dias'),SE=g('SE'),ST=g('ST'),Ins=g('Ins'),Eq=g('Eq'),Mg=g('Mg')/100;
+    txt('vN',N);txt('vNE',NE);txt('vNT',NT);txt('vAt',At);txt('vDias',Dias);
+    txt('vSE',SE);txt('vST',ST);txt('vIns',Ins);txt('vEq',Eq);txt('vMg',Math.round(Mg*100));
+    var atMes=At*Dias, atAnioU=atMes*12, atAnioFlota=atAnioU*N, ov=0.12;
     var e=calcUno(SE,atMes,Ins,Eq,ov,Mg), t=calcUno(ST,atMes,Ins,Eq,ov,Mg);
-    var eqFlota=Eq*N;
-    function fill(s,o){
-      document.getElementById('oAnio'+s).textContent=atAnioFlota.toLocaleString('es-PE');
-      document.getElementById('oCpa'+s).textContent='S/ '+o.cpa.toFixed(1);
-      document.getElementById('oMen'+s).textContent=fmt(o.men);
-      document.getElementById('oAn'+s).textContent=fmt(o.cpa*atAnioFlota);
-      document.getElementById('oEq'+s).textContent=fmt(eqFlota);
-      document.getElementById('oTar'+s).textContent='S/ '+o.tarifa.toFixed(1);
-      document.getElementById('oIng'+s).textContent=fmt(o.tarifa*atAnioFlota);
-      document.getElementById('oUt'+s).textContent=fmt(o.tarifa*atAnioFlota - o.cpa*atAnioFlota);
-    }
-    fill('',e); fill('T',t);
-    // fila atenciones/año segunda columna (técnico)
-    document.getElementById('oAnio2').textContent=atAnioFlota.toLocaleString('es-PE');
-    var w=document.getElementById('warn');
-    w.textContent = N>43 ? 'Nota: la flota piloto autorizada es de 43 motos; '+N+' supera ese tope.' : '';
+    // referencia por unidad
+    txt('oCpa','S/ '+e.cpa.toFixed(1)); txt('oCpaT','S/ '+t.cpa.toFixed(1));
+    txt('oMen',fmt(e.men)); txt('oMenT',fmt(t.men));
+    txt('oTar','S/ '+e.tarifa.toFixed(1)); txt('oTarT','S/ '+t.tarifa.toFixed(1));
+    // flota con la mezcla
+    var costoFlota=NE*(e.cpa*atAnioU)+NT*(t.cpa*atAnioU);
+    var ingFlota=NE*(e.tarifa*atAnioU)+NT*(t.tarifa*atAnioU);
+    txt('oMix',NE+' enf. / '+NT+' téc.');
+    txt('oAnio',atAnioFlota.toLocaleString('es-PE'));
+    txt('oAn',fmt(costoFlota));
+    txt('oEq',fmt(Eq*N));
+    txt('oIng',fmt(ingFlota));
+    txt('oUt',fmt(ingFlota-costoFlota));
+    txt('warn', N>43 ? 'Nota: la flota piloto autorizada es de 43 motos; '+N+' supera ese tope.' : '');
   }
   ids.forEach(function(id){document.getElementById(id).addEventListener('input',update);});
   update();
