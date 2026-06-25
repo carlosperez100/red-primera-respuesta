@@ -107,7 +107,7 @@
     </div>
     <div class="kpis">
       <div class="kpi"><b>110,000</b><span>llamadas/año al SAMU (583/día)</span></div>
-      <div class="kpi"><b>30</b><span>motos paramédicas (cesión MML)</span></div>
+      <div class="kpi"><b>43</b><span>motos paramédicas (cesión MML)</span></div>
       <div class="kpi"><b>43</b><span>Puestos de Atención Rápida</span></div>
       <div class="kpi"><b>7 min ±</b><span>tiempo de respuesta objetivo</span></div>
     </div>
@@ -148,8 +148,8 @@
     <div class="calc">
       <div class="calc-grid">
         <div class="inputs">
-          <label for="N">Motos cedidas por la MML (flota) <span class="val" id="vN">30</span></label>
-          <input type="range" id="N" min="1" max="50" value="30" step="1">
+          <label for="N">Motos cedidas por la MML (flota) <span class="val" id="vN">43</span></label>
+          <input type="range" id="N" min="1" max="50" value="43" step="1">
           <label for="At">Atenciones por día por unidad <span class="val" id="vAt">12</span></label>
           <input type="range" id="At" min="6" max="20" value="12" step="1">
           <label for="Dias">Días operativos por mes <span class="val" id="vDias">25</span></label>
@@ -196,11 +196,11 @@
         <table class="data">
           <thead><tr><th>Corredor</th><th>Atendidos 2025</th><th>% demanda</th><th>Motos</th></tr></thead>
           <tbody>
-            <tr><td>Lima Centro</td><td>777,679</td><td>36.9%</td><td>11</td></tr>
-            <tr><td>Lima Norte</td><td>520,684</td><td>24.7%</td><td>7</td></tr>
-            <tr><td>Lima Este</td><td>427,264</td><td>20.3%</td><td>6</td></tr>
-            <tr><td>Lima Sur</td><td>381,380</td><td>18.1%</td><td>6</td></tr>
-            <tr class="tot"><td>Total</td><td>2,107,007</td><td>100%</td><td>30</td></tr>
+            <tr><td>Lima Centro</td><td>777,679</td><td>36.9%</td><td>16</td></tr>
+            <tr><td>Lima Norte</td><td>520,684</td><td>24.7%</td><td>10</td></tr>
+            <tr><td>Lima Este</td><td>427,264</td><td>20.3%</td><td>9</td></tr>
+            <tr><td>Lima Sur</td><td>381,380</td><td>18.1%</td><td>8</td></tr>
+            <tr class="tot"><td>Total</td><td>2,107,007</td><td>100%</td><td>43</td></tr>
           </tbody>
         </table>
         <div class="src">Fuente: Memoria Anual SISOL 2025 (Cuadro N° 06, p.17). Reparto proporcional (mayores restos).</div>
@@ -216,7 +216,7 @@
             <tr><td>Nebulizador · DEA (desfibrilador externo automático)</td></tr>
             <tr><td>Kit de curaciones y sutura · inmovilizadores</td></tr>
             <tr><td>Medicación de urgencia inicial</td></tr>
-            <tr class="tot"><td>Inversión por unidad: S/ 12,000 — flota (30): S/ 360,000</td></tr>
+            <tr class="tot"><td>Inversión por unidad: S/ 12,000 — flota (43): S/ 516,000</td></tr>
           </tbody>
         </table>
         <div class="src">Fuente: elaboración propia (GSS). La moto, el piloto, el SOAT y el mantenimiento los aporta la MML.</div>
@@ -245,15 +245,11 @@
     <h2>Documentos del <em>expediente</em></h2>
     <p class="lead">Descarga los documentos oficiales de la propuesta (versión 3 — Red de Primera Respuesta).</p>
     <div class="docs">
-      <a class="docbtn feat" href="nota_ejecutiva_red_primera_respuesta_2pag.pdf" target="_blank">★ Nota ejecutiva (2 págs.) · PDF</a>
+      <a class="docbtn feat" href="nota_ejecutiva_red_primera_respuesta_2pag.docx">★ Nota ejecutiva (2 págs.) · DOCX</a>
       <a class="docbtn" href="informe_tecnico_red_primera_respuesta.docx">Informe Técnico · DOCX</a>
       <a class="docbtn" href="perfil_proyecto_red_primera_respuesta.docx">Perfil de proyecto · DOCX</a>
       <a class="docbtn" href="convenio_MML_SISOL_primera_respuesta.docx">Convenio MML–SISOL · DOCX</a>
       <a class="docbtn" href="costos_red_primera_respuesta_v3.xlsx">Costos integrales · XLSX</a>
-    </div>
-    <div style="margin-top:1.2rem">
-      <p class="note">Vista previa de la nota ejecutiva de 2 páginas (si no carga, usa el botón de descarga):</p>
-      <iframe src="nota_ejecutiva_red_primera_respuesta_2pag.pdf" title="Nota ejecutiva 2 paginas" style="width:100%;height:580px;border:1px solid var(--stone-200);border-radius:12px"></iframe>
     </div>
   </div>
 </section>
@@ -306,7 +302,7 @@
     // fila atenciones/año segunda columna (técnico)
     document.getElementById('oAnio2').textContent=atAnioFlota.toLocaleString('es-PE');
     var w=document.getElementById('warn');
-    w.textContent = N>30 ? 'Nota: la flota piloto autorizada es de 30 motos; '+N+' supera ese tope.' : '';
+    w.textContent = N>43 ? 'Nota: la flota piloto autorizada es de 43 motos; '+N+' supera ese tope.' : '';
   }
   ids.forEach(function(id){document.getElementById(id).addEventListener('input',update);});
   update();
