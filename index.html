@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de Primera Respuesta en Salud — SISOL · MML</title>
+<style>
+  :root{
+    --sisol-red:#BE2E32; --sisol-red-dark:#6B1518; --mml-blue:#2F3772; --blue2:#1F2552;
+    --gold:#C9A961; --gold-dark:#8A6314; --cream:#FAF7F0; --ink:#1C232B; --gris:#5E6A78;
+    --green:#2C7A4B; --stone-100:#F4F1EA; --stone-200:#E6E1D6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 1.2rem}
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--mml-blue),#0f2342);color:#fff;padding:2.6rem 0 2rem;border-bottom:5px solid var(--gold)}
+  .hero h1{font-size:2.1rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .hero .sub{color:#D6E0F0;font-size:1.05rem;margin-top:.4rem}
+  .hero .tag{color:var(--gold);font-weight:700;margin-top:.7rem;font-size:.95rem}
+  .hero .badge{display:inline-block;background:rgba(201,169,97,.18);border:1px solid var(--gold);color:var(--gold);
+    border-radius:100px;padding:.25rem .9rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+  /* SECTIONS */
+  section{padding:2.4rem 0;border-top:1px solid var(--stone-200)}
+  h2{font-size:1.5rem;color:var(--mml-blue);font-weight:800;margin-bottom:.3rem;letter-spacing:-.01em}
+  h2 em{color:var(--sisol-red);font-style:normal}
+  .lead{color:var(--gris);max-width:680px;margin-bottom:1.3rem}
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+  .kpi{background:var(--cream);border:1px solid var(--gold);border-radius:12px;padding:1.1rem;text-align:center}
+  .kpi b{display:block;font-size:1.8rem;color:var(--sisol-red);font-weight:800}
+  .kpi span{font-size:.8rem;color:var(--gris)}
+  /* CADENA */
+  .chain{display:flex;flex-wrap:wrap;gap:.5rem;align-items:stretch}
+  .step{flex:1;min-width:120px;background:#fff;border:1.5px solid var(--mml-blue);border-radius:10px;padding:.7rem .6rem;position:relative;text-align:center}
+  .step .n{display:inline-block;width:22px;height:22px;line-height:22px;border-radius:50%;background:var(--mml-blue);color:#fff;font-size:.75rem;font-weight:700;margin-bottom:.3rem}
+  .step.red{border-color:var(--sisol-red)} .step.red .n{background:var(--sisol-red)}
+  .step.gold{border-color:var(--gold-dark)} .step.gold .n{background:var(--gold-dark)}
+  .step b{display:block;font-size:.82rem;line-height:1.25}
+  .step small{color:var(--gris);font-size:.72rem}
+  /* APORTES */
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+  .card{border-radius:12px;padding:1.2rem;border:1.5px solid}
+  .card.mml{border-color:var(--mml-blue);background:#F5F8FD} .card.sisol{border-color:var(--sisol-red);background:#FDF5F5}
+  .card h3{font-size:1rem;margin-bottom:.6rem} .card.mml h3{color:var(--mml-blue)} .card.sisol h3{color:var(--sisol-red)}
+  .card ul{list-style:none} .card li{padding:.25rem 0 .25rem 1.3rem;position:relative;font-size:.9rem}
+  .card li::before{content:'▪';position:absolute;left:0;color:var(--gold-dark)}
+  /* CALC */
+  .calc{background:var(--stone-100);border:1px solid var(--stone-200);border-radius:16px;padding:1.5rem}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+  .inputs label{display:block;font-size:.82rem;color:var(--ink);font-weight:600;margin:.7rem 0 .2rem}
+  .inputs input[type=range]{width:100%}
+  .inputs .val{float:right;color:var(--sisol-red);font-weight:700}
+  .inputs input[type=number]{width:100%;padding:.4rem .5rem;border:1px solid var(--stone-200);border-radius:7px;font-size:.9rem}
+  .out{background:#fff;border-radius:12px;padding:1rem;border:1px solid var(--stone-200)}
+  .out table{width:100%;border-collapse:collapse;font-size:.86rem}
+  .out th,.out td{padding:.42rem .5rem;border-bottom:1px solid var(--stone-100);text-align:right}
+  .out th:first-child,.out td:first-child{text-align:left}
+  .out thead th{background:var(--mml-blue);color:#fff;font-size:.78rem}
+  .out tr.hl td{background:#FBF6EC;font-weight:800;color:var(--gold-dark)}
+  .out tr.hl2 td{background:#EAF5EE;font-weight:800;color:var(--green)}
+  .note{font-size:.78rem;color:var(--gris);margin-top:.6rem}
+  .warn{color:var(--sisol-red);font-weight:700;font-size:.82rem;margin-top:.4rem;min-height:1.1em}
+  /* DETAILS */
+  details{background:#fff;border:1px solid var(--stone-200);border-radius:10px;margin-top:.8rem;overflow:hidden}
+  summary{cursor:pointer;padding:.9rem 1.1rem;font-weight:700;color:var(--mml-blue);background:var(--cream);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'▸ ';color:var(--gold-dark)} details[open] summary::before{content:'▾ '}
+  summary:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--gold-dark);outline-offset:2px}
+  .det-body{padding:1rem 1.1rem}
+  table.data{width:100%;border-collapse:collapse;font-size:.86rem}
+  table.data th,table.data td{padding:.45rem .6rem;border-bottom:1px solid var(--stone-100);text-align:right}
+  table.data th:first-child,table.data td:first-child{text-align:left}
+  table.data thead th{background:var(--mml-blue);color:#fff}
+  table.data tr.tot td{font-weight:800;background:var(--cream)}
+  .src{font-size:.75rem;color:var(--gris);font-style:italic;margin-top:.4rem}
+  /* SUSTENTO */
+  .sustento{background:var(--mml-blue);color:#fff;border-radius:14px;padding:1.4rem 1.5rem}
+  .sustento h2{color:#fff} .sustento li{margin:.3rem 0;font-size:.92rem;list-style:none;padding-left:1.4rem;position:relative}
+  .sustento li::before{content:'●';position:absolute;left:0;color:var(--gold)}
+.docs{display:flex;flex-wrap:wrap;gap:.7rem}
+  .docbtn{display:inline-block;padding:.7rem 1.1rem;border-radius:10px;background:var(--mml-blue);color:#fff;text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid var(--mml-blue)}
+  .docbtn:hover{background:var(--blue2)}
+  .docbtn.feat{background:var(--sisol-red);border-color:var(--sisol-red)}
+  .docbtn.feat:hover{background:var(--sisol-red-dark)}
+  footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
+  footer b{color:#fff}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.cols2,.calc-grid{grid-template-columns:1fr}.hero h1{font-size:1.6rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">SISOL · Municipalidad Metropolitana de Lima</span>
+    <h1>Red de Primera Respuesta en Salud</h1>
+    <div class="sub">Atención de urgencias prehospitalaria con motos paramédicas — integra GRAVE y SISOL EN CASA</div>
+    <div class="tag">Llegamos primero (7 min ±) · Estabilizamos · Salvamos vidas</div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:1.2rem">
+      <img src="https://i.ibb.co/8nh62WH7/Imagen-final-de-la-MOTO.png" alt="Moto paramédica de primera respuesta" style="max-width:340px;width:100%;border-radius:12px">
+      <div class="note">El medio de atención es la motocicleta paramédica.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>110,000</b><span>llamadas/año al SAMU (583/día)</span></div>
+      <div class="kpi"><b>30</b><span>motos paramédicas (cesión MML)</span></div>
+      <div class="kpi"><b>43</b><span>Puestos de Atención Rápida</span></div>
+      <div class="kpi"><b>7 min ±</b><span>tiempo de respuesta objetivo</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Cómo funciona — <em>cadena de primera respuesta</em></h2>
+    <p class="lead">De la alerta al establecimiento de salud más cercano: la moto llega primero (7 min ±), estabiliza y articula con SAMU y Bomberos.</p>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <svg viewBox="0 0 1060 660" style="width:100%;min-width:740px;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif"><defs>
+<marker id="ar" markerWidth="13" markerHeight="13" refX="8.5" refY="5" orient="auto"><path d="M0,0 L11,5 L0,10 L3.2,5 Z" fill="#2F3772"/></marker>
+<marker id="arR" markerWidth="13" markerHeight="13" refX="8.5" refY="5" orient="auto"><path d="M0,0 L11,5 L0,10 L3.2,5 Z" fill="#BE2E32"/></marker>
+<marker id="arG" markerWidth="13" markerHeight="13" refX="8.5" refY="5" orient="auto"><path d="M0,0 L11,5 L0,10 L3.2,5 Z" fill="#2C7A4B"/></marker>
+</defs><rect x="0" y="0" width="1060" height="660" fill="#fff"/><text x="40" y="38" font-size="22" font-weight="800"><tspan fill="#BE2E32">Red de Primera Respuesta en Salud</tspan><tspan fill="#1C232B" font-weight="600"> — SISOL · Municipalidad de Lima</tspan></text><text x="40" y="60" font-size="13" fill="#5E6A78">Llegamos primero · Estabilizamos · Salvamos vidas. Integra GRAVE (motos) + 43 Puestos de Atención Rápida (serenazgo + central) + SAMU/Bomberos + traslado al EE.SS. más cercano.</text><line x1="40" y1="74" x2="1020" y2="74" stroke="#C9A961" stroke-width="2"/><rect x="40" y="110" width="212" height="72" rx="12" fill="#FAF7F0" stroke="#C9A961" stroke-width="2"/><text x="146" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="#1C232B">1 · ALERTA</text><text x="146" y="161" text-anchor="middle" font-size="11" fill="#1C232B">Ciudadano / Sereno</text><text x="146" y="175" text-anchor="middle" font-size="11" fill="#1C232B">llama a la central</text><rect x="270" y="110" width="212" height="72" rx="12" fill="#2F3772" stroke="#2F3772" stroke-width="2"/><text x="376" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">2 · CENTRAL DE COMUNIC.</text><text x="376" y="161" text-anchor="middle" font-size="11" fill="#EAF0EE">Serenazgo MML: recibe,</text><text x="376" y="175" text-anchor="middle" font-size="11" fill="#EAF0EE">geolocaliza y triajea</text><rect x="500" y="110" width="212" height="72" rx="12" fill="#1F2552" stroke="#1F2552" stroke-width="2"/><text x="606" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">3 · PUESTO ATENCIÓN RÁPIDA</text><text x="606" y="161" text-anchor="middle" font-size="11" fill="#EAF0EE">Despacha la unidad más</text><text x="606" y="175" text-anchor="middle" font-size="11" fill="#EAF0EE">cercana (red de 43 puestos)</text><rect x="730" y="110" width="212" height="72" rx="12" fill="#BE2E32" stroke="#BE2E32" stroke-width="2"/><text x="836" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">4 · MOTO PARAMÉDICA</text><text x="836" y="161" text-anchor="middle" font-size="11" fill="#EAF0EE">SISOL: llega primero y</text><text x="836" y="175" text-anchor="middle" font-size="11" fill="#EAF0EE">estabiliza (maletín urgencias)</text><line x1="255" y1="146" x2="267" y2="146" stroke="#2F3772" stroke-width="2.8" stroke-linecap="round" marker-end="url(#ar)"/><line x1="485" y1="146" x2="497" y2="146" stroke="#2F3772" stroke-width="2.8" stroke-linecap="round" marker-end="url(#ar)"/><line x1="715" y1="146" x2="727" y2="146" stroke="#2F3772" stroke-width="2.8" stroke-linecap="round" marker-end="url(#ar)"/><path d="M836,182 C836,197 570,197 570,212" fill="none" stroke="#2F3772" stroke-width="2.8" stroke-linecap="round" marker-end="url(#ar)"/><polygon points="570,212 695,235 570,258 445,235" fill="#fff" stroke="#C9A961" stroke-width="2.5"/><text x="570" y="240" text-anchor="middle" font-size="13" font-weight="800" fill="#1C232B">TRIAJE EN SITIO</text><rect x="120" y="302" width="420" height="70" rx="12" fill="#EAF5EE" stroke="#2C7A4B" stroke-width="2"/><text x="330" y="333" text-anchor="middle" font-size="13" font-weight="800" fill="#2C7A4B">URGENCIA (prioridad II–III)</text><text x="330" y="352" text-anchor="middle" font-size="11" fill="#2C7A4B">Resuelve y observa en el sitio · evita traslado innecesario</text><rect x="600" y="302" width="420" height="70" rx="12" fill="#FBEAEA" stroke="#BE2E32" stroke-width="2"/><text x="810" y="333" text-anchor="middle" font-size="13" font-weight="800" fill="#BE2E32">EMERGENCIA (prioridad I)</text><text x="810" y="352" text-anchor="middle" font-size="11" fill="#BE2E32">Coordina SAMU (ambulancia) + Bomberos (rescate) → traslado</text><path d="M570,258 C570,280 330,280 330,302" fill="none" stroke="#2C7A4B" stroke-width="2.8" stroke-linecap="round" marker-end="url(#arG)"/><path d="M570,258 C570,280 810,280 810,302" fill="none" stroke="#BE2E32" stroke-width="2.8" stroke-linecap="round" marker-end="url(#arR)"/><text x="450" y="282" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2C7A4B">no crítico</text><text x="690" y="282" text-anchor="middle" font-size="10.5" font-weight="700" fill="#BE2E32">riesgo vital</text><rect x="700" y="406" width="320" height="72" rx="12" fill="#2F3772" stroke="#2F3772" stroke-width="2"/><text x="860" y="438" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">5 · EE.SS. MÁS CERCANO</text><text x="860" y="457" text-anchor="middle" font-size="11" fill="#EAF0EE">Traslado al establecimiento de salud más cercano</text><text x="860" y="471" text-anchor="middle" font-size="11" fill="#EAF0EE">y apropiado (SISOL, MINSA o EsSalud) según el caso</text><path d="M810,372 C810,389 860,389 860,406" fill="none" stroke="#BE2E32" stroke-width="2.8" stroke-linecap="round" marker-end="url(#arR)"/><rect x="40" y="512" width="980" height="86" rx="12" fill="#FAF7F0" stroke="#C9A961" stroke-width="1.5"/><text x="60" y="536" font-size="13" font-weight="800" fill="#2F3772">ECOSISTEMA ARTICULADO (no se duplica: cada actor en su rol)</text><text x="60" y="562" font-size="12" font-weight="700" fill="#BE2E32">Serenazgo + Central MML</text><text x="60" y="580" font-size="10.5" fill="#5E6A78">alerta, despacho, geolocalización</text><text x="248" y="562" font-size="12" font-weight="700" fill="#BE2E32">SISOL</text><text x="248" y="580" font-size="10.5" fill="#5E6A78">moto, profesional y maletín de urgencias</text><text x="436" y="562" font-size="12" font-weight="700" fill="#BE2E32">SAMU</text><text x="436" y="580" font-size="10.5" fill="#5E6A78">ambulancia / traslado emergencia I</text><text x="624" y="562" font-size="12" font-weight="700" fill="#BE2E32">Bomberos</text><text x="624" y="580" font-size="10.5" fill="#5E6A78">rescate</text><text x="812" y="562" font-size="12" font-weight="700" fill="#BE2E32">EE.SS. más cercano</text><text x="812" y="580" font-size="10.5" fill="#5E6A78">atención definitiva (cualquier red)</text><text x="40" y="646" font-size="11" fill="#5E6A78">Demanda (GRAVE / SAMU 2025): 110,000 llamadas/año al SAMU (583/día) y 12,000 emergencias/año de Bomberos. La ambulancia tarda 20–30 min en el tráfico; la moto llega primero.</text></svg>
+    </div>
+    <p class="note" style="text-align:center">Cadena de primera respuesta — del aviso al establecimiento de salud más cercano. Fuente: elaboración propia (GSS).</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Aportes de <em>cada parte</em></h2>
+    <div class="cols2">
+      <div class="card mml"><h3>La Municipalidad de Lima aporta</h3>
+        <ul><li>Motocicletas (cesión en uso)</li><li>Piloto (sereno) y combustible</li><li>SOAT vigente</li><li>Mantenimiento preventivo y recuperativo</li><li>43 Puestos + Central de Comunicaciones</li></ul></div>
+      <div class="card sisol"><h3>SISOL aporta</h3>
+        <ul><li>Profesional de salud por unidad</li><li>Maletín de urgencias (equipamiento)</li><li>Insumos y medicación</li><li>Triaje, protocolo y supervisión</li><li>Registro y reporte de atenciones</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Calculadora del <em>modelo económico integral</em></h2>
+    <p class="lead">Modifica el número de motos, la productividad y los costos. El costo por atención es <b>integral</b> (personal + insumos + equipamiento + EPP + comunicaciones + supervisión + gastos administrativos). Datos oficiales precargados.</p>
+    <div class="calc">
+      <div class="calc-grid">
+        <div class="inputs">
+          <label for="N">Motos cedidas por la MML (flota) <span class="val" id="vN">30</span></label>
+          <input type="range" id="N" min="1" max="50" value="30" step="1">
+          <label for="At">Atenciones por día por unidad <span class="val" id="vAt">12</span></label>
+          <input type="range" id="At" min="6" max="20" value="12" step="1">
+          <label for="Dias">Días operativos por mes <span class="val" id="vDias">25</span></label>
+          <input type="range" id="Dias" min="20" max="30" value="25" step="1">
+          <label for="SE">Sueldo enfermero(a) — S/ <span class="val" id="vSE">3200</span></label>
+          <input type="range" id="SE" min="2000" max="5000" value="3200" step="50">
+          <label for="ST">Sueldo técnico (TEM) — S/ <span class="val" id="vST">2000</span></label>
+          <input type="range" id="ST" min="1400" max="3500" value="2000" step="50">
+          <label for="Ins">Insumos médicos por atención — S/ <span class="val" id="vIns">12</span></label>
+          <input type="range" id="Ins" min="4" max="30" value="12" step="1">
+          <label for="Eq">Equipamiento por unidad — S/ <span class="val" id="vEq">12000</span></label>
+          <input type="range" id="Eq" min="6000" max="25000" value="12000" step="500">
+          <label for="Mg">Margen objetivo (%) <span class="val" id="vMg">20</span></label>
+          <input type="range" id="Mg" min="0" max="40" value="20" step="1">
+        </div>
+        <div class="out" aria-live="polite">
+          <table>
+            <thead><tr><th>Indicador</th><th>Enfermero(a)</th><th>Técnico</th></tr></thead>
+            <tbody>
+              <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td><td id="oAnio2">—</td></tr>
+              <tr class="hl"><td>Costo integral por atención</td><td id="oCpa">—</td><td id="oCpaT">—</td></tr>
+              <tr><td>Costo mensual por unidad</td><td id="oMen">—</td><td id="oMenT">—</td></tr>
+              <tr><td>Costo anual operación (flota)</td><td id="oAn">—</td><td id="oAnT">—</td></tr>
+              <tr><td>Equipamiento (inversión flota)</td><td id="oEq">—</td><td id="oEqT">—</td></tr>
+              <tr class="hl"><td>Tarifa rentable (con margen)</td><td id="oTar">—</td><td id="oTarT">—</td></tr>
+              <tr><td>Ingreso anual (flota)</td><td id="oIng">—</td><td id="oIngT">—</td></tr>
+              <tr class="hl2"><td>Utilidad anual (flota)</td><td id="oUt">—</td><td id="oUtT">—</td></tr>
+            </tbody>
+          </table>
+          <div class="warn" id="warn"></div>
+          <div class="note">Atenciones/mes por unidad = atenc/día × días. Costo integral = (personal + insumos + equipo amortizado a 36 meses + EPP S/100 + comunicaciones S/60 + supervisión S/200, todo por atención) × (1 + overhead 12%). Tarifa rentable = costo ÷ (1 − margen). La tarifa solidaria (~S/ 29–35) es 70–85% menor que el mercado privado (S/ 120–250).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Detalle <em>desplegable</em></h2>
+    <details>
+      <summary>Asignación de las 30 motos por corredor (demanda real 2025)</summary>
+      <div class="det-body">
+        <table class="data">
+          <thead><tr><th>Corredor</th><th>Atendidos 2025</th><th>% demanda</th><th>Motos</th></tr></thead>
+          <tbody>
+            <tr><td>Lima Centro</td><td>777,679</td><td>36.9%</td><td>11</td></tr>
+            <tr><td>Lima Norte</td><td>520,684</td><td>24.7%</td><td>7</td></tr>
+            <tr><td>Lima Este</td><td>427,264</td><td>20.3%</td><td>6</td></tr>
+            <tr><td>Lima Sur</td><td>381,380</td><td>18.1%</td><td>6</td></tr>
+            <tr class="tot"><td>Total</td><td>2,107,007</td><td>100%</td><td>30</td></tr>
+          </tbody>
+        </table>
+        <div class="src">Fuente: Memoria Anual SISOL 2025 (Cuadro N° 06, p.17). Reparto proporcional (mayores restos).</div>
+      </div>
+    </details>
+    <details>
+      <summary>Maletín de urgencias (equipamiento por unidad)</summary>
+      <div class="det-body">
+        <table class="data">
+          <thead><tr><th>Componente</th></tr></thead>
+          <tbody>
+            <tr><td>Oxígeno portátil · oxímetro · tensiómetro · glucómetro</td></tr>
+            <tr><td>Nebulizador · DEA (desfibrilador externo automático)</td></tr>
+            <tr><td>Kit de curaciones y sutura · inmovilizadores</td></tr>
+            <tr><td>Medicación de urgencia inicial</td></tr>
+            <tr class="tot"><td>Inversión por unidad: S/ 12,000 — flota (30): S/ 360,000</td></tr>
+          </tbody>
+        </table>
+        <div class="src">Fuente: elaboración propia (GSS). La moto, el piloto, el SOAT y el mantenimiento los aporta la MML.</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sustento">
+      <h2>Sustento (Memoria Anual SISOL 2025)</h2>
+      <ul>
+        <li>7,558,803 atenciones de salud en 2025 (Cuadro N° 04, p.14)</li>
+        <li>95% de ocupación de la capacidad instalada de consultorios (KRI 4, p.20)</li>
+        <li>Perfil epidemiológico agudo: hipertensión, infección urinaria, traumas (Cuadro N° 05)</li>
+        <li>Demanda de emergencias: 110,000 llamadas/año al SAMU; 12,000 de Bomberos</li>
+        <li>Satisfacción del usuario: 89% (Gráfico N° 1, p.19)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Documentos del <em>expediente</em></h2>
+    <p class="lead">Descarga los documentos oficiales de la propuesta (versión 3 — Red de Primera Respuesta).</p>
+    <div class="docs">
+      <a class="docbtn feat" href="nota_ejecutiva_red_primera_respuesta_2pag.pdf" target="_blank">★ Nota ejecutiva (2 págs.) · PDF</a>
+      <a class="docbtn" href="informe_tecnico_red_primera_respuesta.docx">Informe Técnico · DOCX</a>
+      <a class="docbtn" href="perfil_proyecto_red_primera_respuesta.docx">Perfil de proyecto · DOCX</a>
+      <a class="docbtn" href="convenio_MML_SISOL_primera_respuesta.docx">Convenio MML–SISOL · DOCX</a>
+      <a class="docbtn" href="costos_red_primera_respuesta_v3.xlsx">Costos integrales · XLSX</a>
+    </div>
+    <div style="margin-top:1.2rem">
+      <p class="note">Vista previa de la nota ejecutiva de 2 páginas (si no carga, usa el botón de descarga):</p>
+      <iframe src="nota_ejecutiva_red_primera_respuesta_2pag.pdf" title="Nota ejecutiva 2 paginas" style="width:100%;height:580px;border:1px solid var(--stone-200);border-radius:12px"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Elaborado por la Gerencia de Servicios de Salud — SISOL Salud.</b> Se eleva al Dr. Jorge Denis Beltrán Calderón, Gerente General.<br>
+    Marco Estratégico 2025–2030 (OE.01 y OE.05) · Lima, 2026 · Cifras de costo: elaboración propia (supuestos editables).
+  </div>
+</footer>
+
+<script>
+  var fmt=function(n){return 'S/ '+Math.round(n).toLocaleString('es-PE');};
+  var ids=['N','At','Dias','SE','ST','Ins','Eq','Mg'];
+  function g(id){return parseFloat(document.getElementById(id).value);}
+  function calcUno(sueldo,atMes,ins,eq,ov,mg){
+    var personal=sueldo/atMes;
+    var equipAmort=(eq/36)/atMes;
+    var epp=100/atMes, comm=60/atMes, superv=200/atMes;
+    var sub=personal+ins+equipAmort+epp+comm+superv;
+    var cpa=sub*(1+ov);
+    var men=cpa*atMes;
+    var tarifa=cpa/(1-mg);
+    return {cpa:cpa,men:men,tarifa:tarifa};
+  }
+  function update(){
+    var N=g('N'),At=g('At'),Dias=g('Dias'),SE=g('SE'),ST=g('ST'),Ins=g('Ins'),Eq=g('Eq'),Mg=g('Mg')/100;
+    document.getElementById('vN').textContent=N;
+    document.getElementById('vAt').textContent=At;
+    document.getElementById('vDias').textContent=Dias;
+    document.getElementById('vSE').textContent=SE;
+    document.getElementById('vST').textContent=ST;
+    document.getElementById('vIns').textContent=Ins;
+    document.getElementById('vEq').textContent=Eq;
+    document.getElementById('vMg').textContent=Math.round(Mg*100);
+    var atMes=At*Dias, atAnioFlota=atMes*12*N, ov=0.12;
+    var e=calcUno(SE,atMes,Ins,Eq,ov,Mg), t=calcUno(ST,atMes,Ins,Eq,ov,Mg);
+    var eqFlota=Eq*N;
+    function fill(s,o){
+      document.getElementById('oAnio'+s).textContent=atAnioFlota.toLocaleString('es-PE');
+      document.getElementById('oCpa'+s).textContent='S/ '+o.cpa.toFixed(1);
+      document.getElementById('oMen'+s).textContent=fmt(o.men);
+      document.getElementById('oAn'+s).textContent=fmt(o.cpa*atAnioFlota);
+      document.getElementById('oEq'+s).textContent=fmt(eqFlota);
+      document.getElementById('oTar'+s).textContent='S/ '+o.tarifa.toFixed(1);
+      document.getElementById('oIng'+s).textContent=fmt(o.tarifa*atAnioFlota);
+      document.getElementById('oUt'+s).textContent=fmt(o.tarifa*atAnioFlota - o.cpa*atAnioFlota);
+    }
+    fill('',e); fill('T',t);
+    // fila atenciones/año segunda columna (técnico)
+    document.getElementById('oAnio2').textContent=atAnioFlota.toLocaleString('es-PE');
+    var w=document.getElementById('warn');
+    w.textContent = N>30 ? 'Nota: la flota piloto autorizada es de 30 motos; '+N+' supera ese tope.' : '';
+  }
+  ids.forEach(function(id){document.getElementById(id).addEventListener('input',update);});
+  update();
+</script>
+</body>
+</html>
