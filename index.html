@@ -131,7 +131,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
       <div class="card mml"><h3>La Municipalidad de Lima aporta</h3>
         <ul><li>Motocicletas (cesión en uso)</li><li>Combustible</li><li>SOAT vigente</li><li>Mantenimiento preventivo y recuperativo</li><li>43 Puestos + Central de Comunicaciones</li></ul></div>
       <div class="card sisol"><h3>SISOL aporta</h3>
-        <ul><li>Tripulación de salud por unidad (técnico que conduce + enfermero que estabiliza)</li><li>Maletín de urgencias (equipamiento)</li><li>Insumos y medicación</li><li>Central de coordinación y enfermero coordinador</li><li>Triaje, protocolo, supervisión y registro de atenciones</li></ul></div>
+        <ul><li>Tripulación de salud por unidad: dos profesionales (técnico + enfermero), uno de ellos conduce</li><li>Maletín de urgencias (equipamiento)</li><li>Insumos y medicación</li><li>Central de coordinación y enfermero coordinador</li><li>Triaje, protocolo, supervisión y registro de atenciones</li></ul></div>
     </div>
   </div>
 </section>
@@ -139,17 +139,15 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 <section>
   <div class="wrap">
     <h2>Calculadora del <em>modelo económico integral</em> (v3.1)</h2>
-    <p class="lead">Elige el escenario de dotación, la cobertura horaria y el número de motos. El modelo costea <b>una moto</b>, la extrapola a la flota y suma una sola vez la red (central de coordinación + enfermero coordinador). El personal de salud tiene pago mensual fijo con máximo 150 h/mes (modelo ambulancias SISOL). SISOL no persigue fines de lucro: la tarifa cubre el costo integral más un <b>margen de imprevistos</b>. La dotación recomendada es <b>técnico + enfermero(a)</b>: el técnico conduce y apoya la atención, el (la) enfermero(a) estabiliza al paciente y, mientras uno atiende, el otro garantiza la custodia de la unidad y del equipamiento.</p>
+    <p class="lead">Elige el escenario de dotación, la cobertura horaria y el número de motos. El modelo costea <b>una moto</b>, la extrapola a la flota y suma una sola vez la red (central de coordinación + enfermero coordinador). El personal de salud tiene pago mensual fijo con máximo 150 h/mes (modelo ambulancias SISOL). SISOL no persigue fines de lucro: la tarifa cubre el costo integral más un <b>margen de imprevistos</b>. La dotación recomendada es de <b>dos profesionales —un técnico y un(a) enfermero(a)— donde uno de ellos conduce</b>: el técnico apoya la atención, el (la) enfermero(a) estabiliza al paciente y, mientras uno atiende, el otro garantiza la custodia de la unidad y del equipamiento.</p>
     <div class="calc">
       <div class="calc-grid">
         <div class="inputs">
           <label for="Esc">Escenario de dotación</label>
           <select id="Esc" style="width:100%;padding:.45rem .5rem;border:1px solid var(--stone-200);border-radius:7px;font-size:.9rem">
-            <option value="0">E1 — Un conductor: técnico en emergencias (TEM)</option>
-            <option value="1">E2 — Un conductor: enfermero(a)</option>
-            <option value="2">E3 — Dos conductores: técnicos</option>
-            <option value="3">E4 — Dos conductores: enfermeros(as)</option>
-            <option value="4" selected>E5 — Dos conductores: técnico + enfermero(a) — RECOMENDADO</option>
+            <option value="0">E1 — Un profesional: técnico en emergencias (TEM), que conduce</option>
+            <option value="1">E2 — Un profesional: enfermero(a), que conduce</option>
+            <option value="2" selected>E3 — Dos profesionales: técnico + enfermero(a), uno conduce — RECOMENDADO</option>
           </select>
           <label for="Cob">Cobertura horaria</label>
           <select id="Cob" style="width:100%;padding:.45rem .5rem;border:1px solid var(--stone-200);border-radius:7px;font-size:.9rem">
@@ -192,7 +190,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
             <thead><tr><th id="hCmp">Tarifa por escenario</th><th>Tarifa</th></tr></thead>
             <tbody id="tCmp"></tbody>
           </table>
-          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (técnico + enfermero en 24 h: S/ 72.1) es 40–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un conductor técnico en 24 h (S/ 38.5).</div>
+          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (dos profesionales técnico + enfermero en 24 h: S/ 72.1) es 40–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un profesional técnico que conduce, en 24 h (S/ 38.5).</div>
         </div>
       </div>
     </div>
@@ -263,11 +261,9 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
   var fmt=function(n){return 'S/ '+Math.round(n).toLocaleString('es-PE');};
   var PERS={6:2,12:3,24:5}, OPS={6:1,12:2,24:4};
   var ESC=[
-    {n:'E1 — Un conductor: técnico (TEM)', crew:[['Técnico en emergencias (conduce la moto)','tec']]},
-    {n:'E2 — Un conductor: enfermero(a)', crew:[['Enfermero(a) (conduce la moto)','enf']]},
-    {n:'E3 — Dos conductores: técnicos', crew:[['Técnico en emergencias 1 (conduce)','tec'],['Técnico en emergencias 2 (atención)','tec']]},
-    {n:'E4 — Dos conductores: enfermeros(as)', crew:[['Enfermero(a) 1 (conduce)','enf'],['Enfermero(a) 2 (atención)','enf']]},
-    {n:'E5 — Dos: técnico + enfermero(a)', crew:[['Técnico en emergencias (conduce)','tec'],['Enfermero(a) (atención)','enf']]}
+    {n:'E1 — Un profesional: técnico (TEM), que conduce', crew:[['Técnico en emergencias (conduce la moto)','tec']]},
+    {n:'E2 — Un profesional: enfermero(a), que conduce', crew:[['Enfermero(a) (conduce la moto)','enf']]},
+    {n:'E3 — Dos profesionales: técnico + enfermero(a), uno conduce', crew:[['Técnico en emergencias','tec'],['Enfermero(a)','enf']]}
   ];
   var FIJO_MOTO=700, FIJO_CENTRAL=1500, COORD=3000, IND=0.12;
   function g(id){return parseFloat(document.getElementById(id).value);}
