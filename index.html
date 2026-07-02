@@ -187,7 +187,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
             </tbody>
           </table>
           <table style="margin-top:1rem">
-            <thead><tr><th id="hCmp">Tarifa por escenario</th><th>Tarifa</th></tr></thead>
+            <thead><tr><th id="hCmp">Comparación de los 3 escenarios</th><th>Costo/atenc.</th><th>Tarifa</th><th>Red/mes</th><th>Excedente/año</th></tr></thead>
             <tbody id="tCmp"></tbody>
           </table>
           <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (dos profesionales técnico + enfermero en 24 h: S/ 72.1) es 40–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un profesional técnico que conduce, en 24 h (S/ 38.5).</div>
@@ -302,13 +302,13 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
     txt('oExc',fmt(r.exc));
     txt('oPers',r.pers.toLocaleString('es-PE'));
     txt('oEq',fmt(12000*N));
-    txt('hCmp','Tarifa por escenario — '+cob+' h/día, '+N+' motos');
+    txt('hCmp','Comparación de los 3 escenarios — '+cob+' h/día, '+N+' motos');
     var c='';
     ESC.forEach(function(e2,j){
       var rj=modelo(j,cob,s,N,Ins,Mg);
-      c+='<tr'+(j===iEsc?' class="hl"':'')+'><td>'+e2.n+'</td><td>S/ '+rj.tarifa.toFixed(1)+'</td></tr>';
+      c+='<tr'+(j===iEsc?' class="hl"':'')+'><td>'+e2.n+'</td><td>S/ '+rj.cpa.toFixed(1)+'</td><td>S/ '+rj.tarifa.toFixed(1)+'</td><td>'+fmt(rj.red)+'</td><td>'+fmt(rj.exc)+'</td></tr>';
     });
-    c+='<tr><td>Urgencia privada a domicilio (referencia)</td><td>S/ 120 – 250</td></tr>';
+    c+='<tr><td>Urgencia privada a domicilio (referencia)</td><td colspan="4">S/ 120 – 250 por atención</td></tr>';
     document.getElementById('tCmp').innerHTML=c;
   }
   ['Esc','Cob','N','ST','SE','SO','Ins','Mg'].forEach(function(id){document.getElementById(id).addEventListener('input',update);});
