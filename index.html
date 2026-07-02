@@ -138,53 +138,61 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 
 <section>
   <div class="wrap">
-    <h2>Calculadora del <em>modelo económico integral</em></h2>
-    <p class="lead">Modifica el número de motos, cuántas llevan enfermero(a) y cuántas técnico, la productividad y los costos. El costo por atención es <b>integral</b> (personal + insumos + equipamiento + EPP + comunicaciones + supervisión + gastos administrativos). Datos oficiales precargados.</p>
+    <h2>Calculadora del <em>modelo económico integral</em> (v3.1)</h2>
+    <p class="lead">Elige el escenario de dotación, la cobertura horaria y el número de motos. El modelo costea <b>una moto</b>, la extrapola a la flota y suma una sola vez la red (central de coordinación + enfermero coordinador). El personal de salud tiene pago mensual fijo con máximo 150 h/mes (modelo ambulancias SISOL). SISOL no persigue fines de lucro: la tarifa cubre el costo integral más un <b>margen de imprevistos</b>.</p>
     <div class="calc">
       <div class="calc-grid">
         <div class="inputs">
-          <label for="N">Motos cedidas por la MML (flota) <span class="val" id="vN">43</span></label>
-          <input type="range" id="N" min="1" max="50" value="43" step="1">
-          <label for="NE">Motos con enfermero(a) <span class="val" id="vNE">14</span></label>
-          <input type="range" id="NE" min="0" max="43" value="14" step="1">
-          <div class="note" style="margin-top:.15rem">El resto son técnicos: <b id="vNT">29</b> motos con técnico.</div>
-          <label for="At">Atenciones por día por unidad <span class="val" id="vAt">12</span></label>
-          <input type="range" id="At" min="6" max="20" value="12" step="1">
-          <label for="Dias">Días operativos por mes <span class="val" id="vDias">25</span></label>
-          <input type="range" id="Dias" min="20" max="30" value="25" step="1">
-          <label for="SE">Sueldo enfermero(a) — S/ <span class="val" id="vSE">3200</span></label>
-          <input type="range" id="SE" min="2000" max="5000" value="3200" step="50">
-          <label for="ST">Sueldo técnico (TEM) — S/ <span class="val" id="vST">2000</span></label>
-          <input type="range" id="ST" min="1400" max="3500" value="2000" step="50">
+          <label for="Esc">Escenario de dotación</label>
+          <select id="Esc" style="width:100%;padding:.45rem .5rem;border:1px solid var(--stone-200);border-radius:7px;font-size:.9rem">
+            <option value="0" selected>E1 — Un conductor: técnico en emergencias (TEM)</option>
+            <option value="1">E2 — Un conductor: enfermero(a)</option>
+            <option value="2">E3 — Dos conductores: técnicos</option>
+            <option value="3">E4 — Dos conductores: enfermeros(as)</option>
+            <option value="4">E5 — Dos conductores: técnico + enfermero(a)</option>
+          </select>
+          <label for="Cob">Cobertura horaria</label>
+          <select id="Cob" style="width:100%;padding:.45rem .5rem;border:1px solid var(--stone-200);border-radius:7px;font-size:.9rem">
+            <option value="6">6 h/día — 2 personas por tripulante</option>
+            <option value="12">12 h/día — 3 personas por tripulante</option>
+            <option value="24" selected>24 h/día — 5 personas por tripulante</option>
+          </select>
+          <label for="N">Motos (unidades de atención rápida) <span class="val" id="vN">43</span></label>
+          <input type="range" id="N" min="1" max="60" value="43" step="1">
+          <label for="ST">Sueldo técnico — conduce la moto — S/ <span class="val" id="vST">1800</span></label>
+          <input type="range" id="ST" min="1400" max="3500" value="1800" step="50">
+          <label for="SE">Sueldo enfermero(a) — S/ <span class="val" id="vSE">3000</span></label>
+          <input type="range" id="SE" min="2000" max="5000" value="3000" step="50">
+          <label for="SO">Sueldo operador de central — S/ <span class="val" id="vSO">1800</span></label>
+          <input type="range" id="SO" min="1400" max="3000" value="1800" step="50">
           <label for="Ins">Insumos médicos por atención — S/ <span class="val" id="vIns">12</span></label>
           <input type="range" id="Ins" min="4" max="30" value="12" step="1">
-          <label for="Eq">Equipamiento por unidad — S/ <span class="val" id="vEq">12000</span></label>
-          <input type="range" id="Eq" min="6000" max="25000" value="12000" step="500">
-          <label for="Mg">Margen objetivo (%) <span class="val" id="vMg">20</span></label>
+          <label for="Mg">Margen de imprevistos (%) <span class="val" id="vMg">20</span></label>
           <input type="range" id="Mg" min="0" max="40" value="20" step="1">
         </div>
         <div class="out" aria-live="polite">
           <table>
-            <thead><tr><th>Por unidad (referencia)</th><th>Enfermero(a)</th><th>Técnico</th></tr></thead>
+            <thead><tr><th id="hCuadro">Personal por moto</th><th>N.° pers.</th><th>Costo/mes</th></tr></thead>
+            <tbody id="tCuadro"></tbody>
+          </table>
+          <table style="margin-top:1rem">
+            <thead><tr><th>Resultado — flota + red</th><th>Valor</th></tr></thead>
             <tbody>
-              <tr class="hl"><td>Costo integral por atención</td><td id="oCpa">—</td><td id="oCpaT">—</td></tr>
-              <tr><td>Costo mensual por unidad</td><td id="oMen">—</td><td id="oMenT">—</td></tr>
-              <tr class="hl"><td>Tarifa rentable (con margen)</td><td id="oTar">—</td><td id="oTarT">—</td></tr>
+              <tr><td>Costo integral por moto/mes</td><td id="oMoto">—</td></tr>
+              <tr><td>Costo de la red/mes</td><td id="oRed">—</td></tr>
+              <tr class="hl"><td>Costo integral por atención</td><td id="oCpa">—</td></tr>
+              <tr class="hl"><td>Tarifa sostenible (con margen de imprevistos)</td><td id="oTar">—</td></tr>
+              <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td></tr>
+              <tr class="hl2"><td>Excedente anual — imprevistos, reposición y mejora</td><td id="oExc">—</td></tr>
+              <tr><td>Personas en la red</td><td id="oPers">—</td></tr>
+              <tr><td>Inversión en maletines (S/ 12,000 × moto)</td><td id="oEq">—</td></tr>
             </tbody>
           </table>
           <table style="margin-top:1rem">
-            <thead><tr><th>Flota con tu mezcla</th><th>Total</th></tr></thead>
-            <tbody>
-              <tr><td>Dotación (enfermero / técnico)</td><td id="oMix">—</td></tr>
-              <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td></tr>
-              <tr><td>Costo anual de operación (flota)</td><td id="oAn">—</td></tr>
-              <tr><td>Equipamiento (inversión flota)</td><td id="oEq">—</td></tr>
-              <tr><td>Ingreso anual a tarifa (flota)</td><td id="oIng">—</td></tr>
-              <tr class="hl2"><td>Utilidad anual (flota)</td><td id="oUt">—</td></tr>
-            </tbody>
+            <thead><tr><th id="hCmp">Tarifa por escenario</th><th>Tarifa</th></tr></thead>
+            <tbody id="tCmp"></tbody>
           </table>
-          <div class="warn" id="warn"></div>
-          <div class="note">Atenciones/mes por unidad = atenc/día × días. Costo integral = (personal + insumos + equipo amortizado a 36 meses + EPP S/100 + comunicaciones S/60 + supervisión S/200, todo por atención) × (1 + overhead 12%). Tarifa rentable = costo ÷ (1 − margen). La tarifa solidaria (~S/ 29–35) es 70–85% menor que el mercado privado (S/ 120–250).</div>
+          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (E1 en 24 h: S/ 38.5) es 68–85% menor que la urgencia privada a domicilio (S/ 120–250).</div>
         </div>
       </div>
     </div>
@@ -253,43 +261,61 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 
 <script>
   var fmt=function(n){return 'S/ '+Math.round(n).toLocaleString('es-PE');};
-  var ids=['N','NE','At','Dias','SE','ST','Ins','Eq','Mg'];
+  var PERS={6:2,12:3,24:5}, OPS={6:1,12:2,24:4};
+  var ESC=[
+    {n:'E1 — Un conductor: técnico (TEM)', crew:[['Técnico en emergencias (conduce la moto)','tec']]},
+    {n:'E2 — Un conductor: enfermero(a)', crew:[['Enfermero(a) (conduce la moto)','enf']]},
+    {n:'E3 — Dos conductores: técnicos', crew:[['Técnico en emergencias 1 (conduce)','tec'],['Técnico en emergencias 2 (atención)','tec']]},
+    {n:'E4 — Dos conductores: enfermeros(as)', crew:[['Enfermero(a) 1 (conduce)','enf'],['Enfermero(a) 2 (atención)','enf']]},
+    {n:'E5 — Dos: técnico + enfermero(a)', crew:[['Técnico en emergencias (conduce)','tec'],['Enfermero(a) (atención)','enf']]}
+  ];
+  var FIJO_MOTO=700, FIJO_CENTRAL=1500, COORD=3000, IND=0.12;
   function g(id){return parseFloat(document.getElementById(id).value);}
   function txt(id,v){document.getElementById(id).textContent=v;}
-  function calcUno(sueldo,atMes,ins,eq,ov,mg){
-    var personal=sueldo/atMes;
-    var equipAmort=(eq/36)/atMes;
-    var epp=100/atMes, comm=60/atMes, superv=200/atMes;
-    var sub=personal+ins+equipAmort+epp+comm+superv;
-    var cpa=sub*(1+ov);
-    return {cpa:cpa, men:cpa*atMes, tarifa:cpa/(1-mg)};
+  function modelo(iEsc,cob,s,N,ins,mg){
+    var e=ESC[iEsc], np=PERS[cob], atMes=cob*25;
+    var personal=0;
+    e.crew.forEach(function(c){personal+=np*s[c[1]];});
+    var moto=(personal+ins*atMes+FIJO_MOTO)*(1+IND);
+    var central=(OPS[cob]*s.op+COORD+FIJO_CENTRAL)*(1+IND);
+    var red=moto*N+central;
+    var cpa=red/(atMes*N);
+    return {e:e,np:np,atMes:atMes,personal:personal,moto:moto,central:central,red:red,cpa:cpa,
+      tarifa:cpa*(1+mg),exc:red*12*mg,pers:np*e.crew.length*N+OPS[cob]+1,atAnio:atMes*12*N};
   }
   function update(){
-    var N=g('N');
-    var neEl=document.getElementById('NE');
-    neEl.max=N; if(parseFloat(neEl.value)>N){neEl.value=N;}
-    var NE=g('NE'), NT=N-NE;
-    var At=g('At'),Dias=g('Dias'),SE=g('SE'),ST=g('ST'),Ins=g('Ins'),Eq=g('Eq'),Mg=g('Mg')/100;
-    txt('vN',N);txt('vNE',NE);txt('vNT',NT);txt('vAt',At);txt('vDias',Dias);
-    txt('vSE',SE);txt('vST',ST);txt('vIns',Ins);txt('vEq',Eq);txt('vMg',Math.round(Mg*100));
-    var atMes=At*Dias, atAnioU=atMes*12, atAnioFlota=atAnioU*N, ov=0.12;
-    var e=calcUno(SE,atMes,Ins,Eq,ov,Mg), t=calcUno(ST,atMes,Ins,Eq,ov,Mg);
-    // referencia por unidad
-    txt('oCpa','S/ '+e.cpa.toFixed(1)); txt('oCpaT','S/ '+t.cpa.toFixed(1));
-    txt('oMen',fmt(e.men)); txt('oMenT',fmt(t.men));
-    txt('oTar','S/ '+e.tarifa.toFixed(1)); txt('oTarT','S/ '+t.tarifa.toFixed(1));
-    // flota con la mezcla
-    var costoFlota=NE*(e.cpa*atAnioU)+NT*(t.cpa*atAnioU);
-    var ingFlota=NE*(e.tarifa*atAnioU)+NT*(t.tarifa*atAnioU);
-    txt('oMix',NE+' enf. / '+NT+' téc.');
-    txt('oAnio',atAnioFlota.toLocaleString('es-PE'));
-    txt('oAn',fmt(costoFlota));
-    txt('oEq',fmt(Eq*N));
-    txt('oIng',fmt(ingFlota));
-    txt('oUt',fmt(ingFlota-costoFlota));
-    txt('warn', N>43 ? 'Nota: la flota piloto autorizada es de 43 motos; '+N+' supera ese tope.' : '');
+    var iEsc=parseInt(document.getElementById('Esc').value,10);
+    var cob=parseInt(document.getElementById('Cob').value,10);
+    var N=g('N'), s={tec:g('ST'),enf:g('SE'),op:g('SO')}, Ins=g('Ins'), Mg=g('Mg')/100;
+    txt('vN',N);txt('vST',s.tec);txt('vSE',s.enf);txt('vSO',s.op);txt('vIns',Ins);txt('vMg',Math.round(Mg*100));
+    var r=modelo(iEsc,cob,s,N,Ins,Mg);
+    txt('hCuadro','Personal por moto — '+cob+' h/día');
+    var h='';
+    r.e.crew.forEach(function(c){
+      h+='<tr><td>'+c[0]+' (máx. 150 h/mes)</td><td>'+r.np+'</td><td>'+fmt(r.np*s[c[1]])+'</td></tr>';
+    });
+    h+='<tr class="hl"><td>Total personal de la moto</td><td>'+(r.np*r.e.crew.length)+'</td><td>'+fmt(r.personal)+'</td></tr>';
+    h+='<tr><td>Operador de central (red — única vez)</td><td>'+OPS[cob]+'</td><td>'+fmt(OPS[cob]*s.op)+'</td></tr>';
+    h+='<tr><td>Enfermero coordinador (red — única vez)</td><td>1</td><td>'+fmt(COORD)+'</td></tr>';
+    document.getElementById('tCuadro').innerHTML=h;
+    txt('oMoto',fmt(r.moto));
+    txt('oRed',fmt(r.red));
+    txt('oCpa','S/ '+r.cpa.toFixed(1));
+    txt('oTar','S/ '+r.tarifa.toFixed(1));
+    txt('oAnio',r.atAnio.toLocaleString('es-PE'));
+    txt('oExc',fmt(r.exc));
+    txt('oPers',r.pers.toLocaleString('es-PE'));
+    txt('oEq',fmt(12000*N));
+    txt('hCmp','Tarifa por escenario — '+cob+' h/día, '+N+' motos');
+    var c='';
+    ESC.forEach(function(e2,j){
+      var rj=modelo(j,cob,s,N,Ins,Mg);
+      c+='<tr'+(j===iEsc?' class="hl"':'')+'><td>'+e2.n+'</td><td>S/ '+rj.tarifa.toFixed(1)+'</td></tr>';
+    });
+    c+='<tr><td>Urgencia privada a domicilio (referencia)</td><td>S/ 120 – 250</td></tr>';
+    document.getElementById('tCmp').innerHTML=c;
   }
-  ids.forEach(function(id){document.getElementById(id).addEventListener('input',update);});
+  ['Esc','Cob','N','ST','SE','SO','Ins','Mg'].forEach(function(id){document.getElementById(id).addEventListener('input',update);});
   update();
 </script>
 </body>
