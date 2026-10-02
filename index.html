@@ -140,7 +140,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
 <section>
   <div class="wrap">
     <h2>Calculadora del <em>modelo económico integral</em> (v3.1)</h2>
-    <p class="lead">Elige el escenario de dotación, la cobertura horaria y el número de motos. El modelo costea <b>una moto</b>, la extrapola a la flota y suma una sola vez la red (central de coordinación + enfermero coordinador). El personal de salud tiene pago mensual fijo con máximo 150 h/mes (modelo ambulancias SISOL). SISOL no persigue fines de lucro: la tarifa cubre el costo integral más un <b>margen de imprevistos</b>. La dotación recomendada es de <b>dos profesionales —un técnico y un(a) enfermero(a)— donde uno de ellos conduce</b>: el técnico apoya la atención, el (la) enfermero(a) estabiliza al paciente y, mientras uno atiende, el otro garantiza la custodia de la unidad y del equipamiento.</p>
+    <p class="lead">Elige el escenario de dotación, la cobertura horaria y el número de motos. El modelo costea <b>una moto</b>, la extrapola a la flota y suma una sola vez la red (central de coordinación + enfermero coordinador). El personal de salud tiene pago mensual fijo con máximo 150 h/mes (modelo ambulancias SISOL). El servicio no se cobra al usuario: se financia con transferencia de la Municipalidad de Lima a SISOL, con el mismo mecanismo de las ambulancias, y el costo por atención es el parámetro de esa transferencia. La dotación recomendada es de <b>dos profesionales —un técnico y un(a) enfermero(a)— donde uno de ellos conduce</b>: el técnico apoya la atención, el (la) enfermero(a) estabiliza al paciente y, mientras uno atiende, el otro garantiza la custodia de la unidad y del equipamiento.</p>
     <div class="calc">
       <div class="calc-grid">
         <div class="inputs">
@@ -166,8 +166,6 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
           <input type="range" id="SO" min="1400" max="3000" value="1800" step="50">
           <label for="Ins">Insumos médicos por atención — S/ <span class="val" id="vIns">12</span></label>
           <input type="range" id="Ins" min="4" max="30" value="12" step="1">
-          <label for="Mg">Margen de imprevistos (%) <span class="val" id="vMg">20</span></label>
-          <input type="range" id="Mg" min="0" max="40" value="20" step="1">
         </div>
         <div class="out" aria-live="polite">
           <table>
@@ -180,18 +178,17 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
               <tr><td>Costo integral por moto/mes</td><td id="oMoto">—</td></tr>
               <tr><td>Costo de la red/mes</td><td id="oRed">—</td></tr>
               <tr class="hl"><td>Costo integral por atención</td><td id="oCpa">—</td></tr>
-              <tr class="hl"><td>Tarifa sostenible (con margen de imprevistos)</td><td id="oTar">—</td></tr>
               <tr><td>Atenciones/año (flota)</td><td id="oAnio">—</td></tr>
-              <tr class="hl2"><td>Excedente anual — imprevistos, reposición y mejora</td><td id="oExc">—</td></tr>
+              <tr class="hl2"><td>Costo anual de la red</td><td id="oAnual">—</td></tr>
               <tr><td>Personas en la red</td><td id="oPers">—</td></tr>
               <tr><td>Equipamiento médico del maletín (S/ 12,000 × moto)</td><td id="oEq">—</td></tr>
             </tbody>
           </table>
           <table style="margin-top:1rem">
-            <thead><tr><th id="hCmp">Comparación de los 3 escenarios</th><th>Costo/atenc.</th><th>Tarifa</th><th>Red/mes</th><th>Excedente/año</th></tr></thead>
+            <thead><tr><th id="hCmp">Comparación de los 3 escenarios</th><th>Costo/atenc.</th><th>Red/mes</th><th>Red/año</th></tr></thead>
             <tbody id="tCmp"></tbody>
           </table>
-          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; equipamiento médico del maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; combustible a cargo de SISOL S/ 350/moto/mes en cobertura de 24 h (3,000 km/mes a 40 km por litro; proporcional en 6 h y 12 h); central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (dos profesionales técnico + enfermero en 24 h: S/ 72.8) es 39–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un profesional técnico que conduce, en 24 h (S/ 39.2).</div>
+          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; equipamiento médico del maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; combustible a cargo de SISOL S/ 350/moto/mes en cobertura de 24 h (3,000 km/mes a 40 km por litro; proporcional en 6 h y 12 h); central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. Costo por atención del escenario recomendado (dos profesionales, técnico + enfermero, en 24 h): S/ 60.7; alternativa de mínimo costo, un técnico que conduce, en 24 h: S/ 32.7. Sin cobro al usuario: el financiamiento es por transferencia de la MML (Informe preliminar GSS, 21-ago-2026, sección VIII). La demanda real se fijará con el análisis de requerimientos de los Puestos de Atención Rápida.</div>
         </div>
       </div>
     </div>
@@ -271,7 +268,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
   var FIJO_MOTO=700, COMB_24=350, FIJO_CENTRAL=1500, COORD=3000, IND=0.12;
   function g(id){return parseFloat(document.getElementById(id).value);}
   function txt(id,v){document.getElementById(id).textContent=v;}
-  function modelo(iEsc,cob,s,N,ins,mg){
+  function modelo(iEsc,cob,s,N,ins){
     var e=ESC[iEsc], np=PERS[cob], atMes=cob*25;
     var personal=0;
     e.crew.forEach(function(c){personal+=np*s[c[1]];});
@@ -280,14 +277,14 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
     var red=moto*N+central;
     var cpa=red/(atMes*N);
     return {e:e,np:np,atMes:atMes,personal:personal,moto:moto,central:central,red:red,cpa:cpa,
-      tarifa:cpa*(1+mg),exc:red*12*mg,pers:np*e.crew.length*N+OPS[cob]+1,atAnio:atMes*12*N};
+      anual:red*12,pers:np*e.crew.length*N+OPS[cob]+1,atAnio:atMes*12*N};
   }
   function update(){
     var iEsc=parseInt(document.getElementById('Esc').value,10);
     var cob=parseInt(document.getElementById('Cob').value,10);
-    var N=g('N'), s={tec:g('ST'),enf:g('SE'),op:g('SO')}, Ins=g('Ins'), Mg=g('Mg')/100;
-    txt('vN',N);txt('vST',s.tec);txt('vSE',s.enf);txt('vSO',s.op);txt('vIns',Ins);txt('vMg',Math.round(Mg*100));
-    var r=modelo(iEsc,cob,s,N,Ins,Mg);
+    var N=g('N'), s={tec:g('ST'),enf:g('SE'),op:g('SO')}, Ins=g('Ins');
+    txt('vN',N);txt('vST',s.tec);txt('vSE',s.enf);txt('vSO',s.op);txt('vIns',Ins);
+    var r=modelo(iEsc,cob,s,N,Ins);
     txt('hCuadro','Personal por moto — '+cob+' h/día');
     var h='';
     r.e.crew.forEach(function(c){
@@ -300,21 +297,19 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
     txt('oMoto',fmt(r.moto));
     txt('oRed',fmt(r.red));
     txt('oCpa','S/ '+r.cpa.toFixed(1));
-    txt('oTar','S/ '+r.tarifa.toFixed(1));
     txt('oAnio',r.atAnio.toLocaleString('es-PE'));
-    txt('oExc',fmt(r.exc));
+    txt('oAnual',fmt(r.anual));
     txt('oPers',r.pers.toLocaleString('es-PE'));
     txt('oEq',fmt(12000*N));
     txt('hCmp','Comparación de los 3 escenarios — '+cob+' h/día, '+N+' motos');
     var c='';
     ESC.forEach(function(e2,j){
-      var rj=modelo(j,cob,s,N,Ins,Mg);
-      c+='<tr'+(j===iEsc?' class="hl"':'')+'><td>'+e2.n+'</td><td>S/ '+rj.cpa.toFixed(1)+'</td><td>S/ '+rj.tarifa.toFixed(1)+'</td><td>'+fmt(rj.red)+'</td><td>'+fmt(rj.exc)+'</td></tr>';
+      var rj=modelo(j,cob,s,N,Ins);
+      c+='<tr'+(j===iEsc?' class="hl"':'')+'><td>'+e2.n+'</td><td>S/ '+rj.cpa.toFixed(1)+'</td><td>'+fmt(rj.red)+'</td><td>'+fmt(rj.anual)+'</td></tr>';
     });
-    c+='<tr><td>Urgencia privada a domicilio (referencia)</td><td colspan="4">S/ 120 – 250 por atención</td></tr>';
     document.getElementById('tCmp').innerHTML=c;
   }
-  ['Esc','Cob','N','ST','SE','SO','Ins','Mg'].forEach(function(id){document.getElementById(id).addEventListener('input',update);});
+  ['Esc','Cob','N','ST','SE','SO','Ins'].forEach(function(id){document.getElementById(id).addEventListener('input',update);});
   update();
 </script>
 </body>
