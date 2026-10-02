@@ -131,7 +131,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
       <div class="card mml"><h3>La Municipalidad de Lima aporta</h3>
         <ul><li>43 motocicletas en cesión en uso, a título gratuito</li><li>Entregadas con luces de emergencia, maletines portátiles para equipos médicos y SOAT vigente</li><li>Recursos financieros para el mantenimiento preventivo y correctivo de las motos</li></ul></div>
       <div class="card sisol"><h3>SISOL aporta</h3>
-        <ul><li>Tripulación de salud por unidad: dos profesionales (técnico + enfermero), uno de ellos conduce</li><li>Equipamiento médico que va dentro del maletín</li><li>Insumos, material médico y medicación</li><li>Mantenimiento preventivo y correctivo de las motos, con los recursos que transfiere la MML</li><li>Central de coordinación y enfermero coordinador</li><li>Triaje, protocolo, supervisión y registro de atenciones</li></ul></div>
+        <ul><li>Tripulación de salud por unidad: dos profesionales (técnico + enfermero), uno de ellos conduce</li><li>Equipamiento médico que va dentro del maletín</li><li>Insumos, material médico y medicación</li><li>Combustible de las motos</li><li>Mantenimiento preventivo y correctivo de las motos, con los recursos que transfiere la MML</li><li>Central de coordinación y enfermero coordinador</li><li>Triaje, protocolo, supervisión y registro de atenciones</li></ul></div>
     </div>
     <p class="note">Fuente: Convenio Específico de Cesión en Uso de 43 motos MML–SISOL, cláusulas cuarta y quinta.</p>
   </div>
@@ -191,7 +191,7 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
             <thead><tr><th id="hCmp">Comparación de los 3 escenarios</th><th>Costo/atenc.</th><th>Tarifa</th><th>Red/mes</th><th>Excedente/año</th></tr></thead>
             <tbody id="tCmp"></tbody>
           </table>
-          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; equipamiento médico del maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (dos profesionales técnico + enfermero en 24 h: S/ 72.1) es 40–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un profesional técnico que conduce, en 24 h (S/ 38.5).</div>
+          <div class="note">Metodología: personal de salud con pago mensual fijo y máx. 150 h/mes por persona (cobertura 6 h = 2 personas por tripulante · 12 h = 3 · 24 h = 5); 1 atención por hora de cobertura × 25 días efectivos; equipamiento médico del maletín (S/ 12,000 amortizado a 36 meses) + EPP + comunicaciones + supervisión = S/ 700/moto/mes; combustible a cargo de SISOL S/ 350/moto/mes en cobertura de 24 h (3,000 km/mes a 40 km por litro; proporcional en 6 h y 12 h); central de coordinación con 1/2/4 operadores según cobertura + fijo S/ 1,500 + enfermero coordinador S/ 3,000 (pago único mensual para toda la flota, no se multiplica por moto); costos indirectos (gastos generales y administrativos) 12%. La tarifa sostenible del escenario recomendado (dos profesionales técnico + enfermero en 24 h: S/ 72.8) es 39–71% menor que la urgencia privada a domicilio (S/ 120–250); la alternativa de mínimo costo es un profesional técnico que conduce, en 24 h (S/ 39.2).</div>
         </div>
       </div>
     </div>
@@ -268,14 +268,14 @@ footer{background:var(--ink);color:#cfd6df;padding:1.6rem 0;font-size:.82rem}
     {n:'E2 — Un profesional: enfermero(a), que conduce', crew:[['Enfermero(a) (conduce la moto)','enf']]},
     {n:'E3 — Dos profesionales: técnico + enfermero(a), uno conduce', crew:[['Técnico en emergencias','tec'],['Enfermero(a)','enf']]}
   ];
-  var FIJO_MOTO=700, FIJO_CENTRAL=1500, COORD=3000, IND=0.12;
+  var FIJO_MOTO=700, COMB_24=350, FIJO_CENTRAL=1500, COORD=3000, IND=0.12;
   function g(id){return parseFloat(document.getElementById(id).value);}
   function txt(id,v){document.getElementById(id).textContent=v;}
   function modelo(iEsc,cob,s,N,ins,mg){
     var e=ESC[iEsc], np=PERS[cob], atMes=cob*25;
     var personal=0;
     e.crew.forEach(function(c){personal+=np*s[c[1]];});
-    var moto=(personal+ins*atMes+FIJO_MOTO)*(1+IND);
+    var moto=(personal+ins*atMes+FIJO_MOTO+COMB_24*cob/24)*(1+IND);
     var central=(OPS[cob]*s.op+COORD+FIJO_CENTRAL)*(1+IND);
     var red=moto*N+central;
     var cpa=red/(atMes*N);
